@@ -13,6 +13,10 @@
     <img src="{{ url_for('static',filename='images/ym.jpg ') }}" alt="头像" class='avatar'>
     {{ user.name }}的电影集
     </h2>
+    <!-- flash消息 列表循环 -->
+    {% for message in get_flashed_messages() %}
+        <div class="alert">{{ message }}</div>
+    {% endfor %}
     <nav>
         <ul>
             <li>
