@@ -52,3 +52,10 @@ def initdb(drop):
         db.drop_all()
     db.create_all()
     click.echo("初始化成功")
+
+
+#自定义错误页面
+@app.errorhandler(404)
+def page_not(a):
+    user = User.query.first()
+    return render_template('404.html',user=user)
