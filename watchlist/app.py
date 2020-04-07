@@ -1,7 +1,9 @@
 import os,sys
 
 from flask import Flask,url_for,render_template,request,redirect,flash
+from werkzeug.security import generate_password_hash,check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager,UserMixin,login_user,logout_user,login_required
 import click
 
 WIN = sys.platform.startswith('win')
@@ -17,11 +19,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '1903_dev'
 
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)  #实例化拓展类
+@login_manager.user_loader
+def load_user(user_id):  #创建用户加载回调函数，接受用户id作为参数
+    user =User.query.get(user_id)
+    return user
+
+#如果没有登录而进行操作会返回到登录页面
+login_manager.login_view = 'login'
 
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(20))
+    username = db.Column(db.String(20))
+    password_hash = db.Column(db.String(128))
+
+    def set_password(self,password):
+        self.password_hash = generate_password_hash(password)
+    def validate_password(self,password):
+        return check_password_hash(self.password_hash,password)
 
 class Movie(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -34,6 +51,8 @@ class Movie(db.Model):
 @app.route('/',methods=["POST","GET"])
 def index():
     if request.method == "POST":
+        if not current_user.is_authenticated:
+            return redirect(url_for('index'))
         #获取表单数据
         title = request.form.get('title')
         year = request.form.get('year')
@@ -53,6 +72,7 @@ def index():
 
 #更新修改
 @app.route('/movie/edit/<int:movie_id>',methods=['POST','GET'])
+@login_required
 def edit(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     if request.method == 'POST':
@@ -69,15 +89,82 @@ def edit(movie_id):
     return render_template('edit.html',movie=movie)
 
 #删除
-
-#更新修改
 @app.route('/movie/delete/<int:movie_id>',methods=['POST','GET'])
+@login_required
 def delete(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     db.session.delete(movie)
     db.session.commit()
     flash('删除完成')
     return redirect(url_for('index'))
+
+#自定义指令，生成管理账号，输入用户名密码，确认密码
+@app.cli.command()
+@click.option('--username',prompt=True,help='登录用户名')
+@click.option('--password',prompt=True,help='密码',confirmation_prompt=True,hide_input=True)
+def admin(username,password):
+    user = User.query.first()
+    if user is not None:
+        click.echo('更新用户管理员')
+        user.username = username
+        user.set_password(password) 
+    else:
+        click.echo('创建管理员账户')
+        user = User(username=username,name='元斌')
+        user.set_password(password)
+        db.session.add(user)
+
+    db.session.commit()
+    click.echo('管理员账号更新/创建完成')
+
+#登录
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if not username or not password:
+            flash('输入有误')
+            return redirect(url_for('login'))
+        user = User.query.first()
+        if username == user.username and user.validate_password(password):
+            login_user(user)
+            flash('登陆成功')
+            return redirect(url_for('index'))
+        flash('验证失败')
+        return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+#登出logout
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('退出成功')
+    return redirect(url_for('index'))
+
+#设置
+@app.route('/settings',methods=['POST','GET'])
+@login_required
+def settings():
+    if request.method == 'POST':
+        name = request.form['name']
+        if not name or len(name)>20:
+            flash('输入有误')
+            return redirect(url_for('settings'))
+        current_user.name = name
+        db.session.commit()
+        flash('名字更新完成')
+        return redirect(url_for('index'))
+
+    return render_template('settings.html')
+
+
+
+
+
 
 
 #自定义命令
