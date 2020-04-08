@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+   
+<ul class=movie-list>
+    <li>
+        <p>没有找到结果</p>
+        <a href="{{ url_for('index') }}">回首页</a>
+    </li>
+</ul>
+
+
+{% endblock %}
