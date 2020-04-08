@@ -1,5 +1,5 @@
 from watchlist import app,db
-from flask_login import login_user,logout_user,login_required
+from flask_login import login_user,logout_user,login_required,current_user
 from flask import Flask,url_for,render_template,request,redirect,flash
 from watchlist.models import User,Movie
 import click
