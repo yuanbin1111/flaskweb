@@ -55,24 +55,7 @@ def delete(movie_id):
     flash('删除完成')
     return redirect(url_for('index'))
 
-#自定义指令，生成管理账号，输入用户名密码，确认密码
-@app.cli.command()
-@click.option('--username',prompt=True,help='登录用户名')
-@click.option('--password',prompt=True,help='密码',confirmation_prompt=True,hide_input=True)
-def admin(username,password):
-    user = User.query.first()
-    if user is not None:
-        click.echo('更新用户管理员')
-        user.username = username
-        user.set_password(password) 
-    else:
-        click.echo('创建管理员账户')
-        user = User(username=username,name='元斌')
-        user.set_password(password)
-        db.session.add(user)
 
-    db.session.commit()
-    click.echo('管理员账号更新/创建完成')
 
 #登录
 @app.route('/login',methods=['GET','POST'])
