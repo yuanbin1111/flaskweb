@@ -16,7 +16,7 @@ def initdb(drop):
 # 向空数据库插入数据
 @app.cli.command()
 def forge():
-    # name = "Mary"
+    name = "元斌"
     movies = [
         {'title':"大赢家","year":"2020"},
         {'title':"囧妈","year":"2018"},
@@ -28,8 +28,8 @@ def forge():
         {'title':"叶问2","year":"2012"},
         {'title':"叶问4","year":"2010"},
     ]
-    # user = User(name=name)
-    # db.session.add(user)
+    user = User(name=name)
+    db.session.add(user)
     for m in movies:
         movie = Movie(title=m['title'],year=m['year'])
         db.session.add(movie)
