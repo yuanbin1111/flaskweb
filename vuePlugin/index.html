@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
 </head>
 <body>
     <div id="app">
+        <h1>{{ $store.state.message }}</h1>
         {{ item }}的平方是<span v-square='item'></span> <br>
         {{ item }}的开方是<span v-sqrt='item'></span> <br>
         {{ item }}的sin是<span v-sin='item'></span> <br>
