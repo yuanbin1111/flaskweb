@@ -11,7 +11,7 @@
                         <a v-bind:href="item.url">{{ item.title }}</a>
                     </li>
                 </ul>
-                <div class="hr"></div>
+                <div v-if="product.title == 'PC产品'" class="hr"></div>
                 </template>
                 
             </div>
