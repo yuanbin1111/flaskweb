@@ -4,177 +4,189 @@
       <!-- 全部产品 -->
       <div class="index-left-block">
         <h2>全部产品</h2>
-        <template v-for="product in productList">
+        <template v-for="product in productlist">
           <h3>{{ product.title }}</h3>
           <ul>
             <li v-for="item in product.list">
-              <a v-bind:href="item.url">{{ item.title }}</a>
+              <a v-bind:href="item.url">{{ item.title}}</a>
               <span v-if="item.hot" class="hot-tag">HOT</span>
             </li>
           </ul>
+          <!-- <div v-if="product.title == 'PC产品'" class="hr"></div> -->
           <div v-if="!product.last" class="hr"></div>
         </template>
       </div>
       <!-- 最新消息 -->
       <div class="index-left-block lastest-news">
         <h2>最新消息</h2>
-        <ul>
-          <li v-for="item in newsList">
-            <a v-bind:href="item.url">{{ item.title }}</a>
-          </li>
-        </ul>
+        <li v-for="item in newsList">
+          <a v-bind:href="item.url">{{ item.title }}</a>
+        </li>
       </div>
     </div>
     <div class="index-right">
-      <div style="margin:0 auto;width:900px;height:300px;background:blue;">使用组件代替</div>
+      <!-- <div style="line-height:300px;width:900px;height:300px;background:red;margin:0 auto">组件</div> -->
+      <SliderComponent></SliderComponent>
       <div class="index-border-list">
         <div class="index-border-item">
           <div class="index-border-item-inner">
-            <h2>第一个标题</h2>
-            <p>第一个的描述</p>
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.description }}</p>
             <div class="index-border-button">立即购买</div>
+          </div>
+            <!-- <h2>第一个产品</h2>
+            <p>第一个产品描述</p>
+            <div class="index-board-button">立即购买</div>
           </div>
         </div>
-        <div class="index-border-item">
-          <div class="index-border-item-inner">
-            <h2>第二个标题</h2>
-            <p>第二个的描述</p>
-            <div class="index-border-button">立即购买</div>
+        <div class="index-board-item">
+          <div class="index-board-item-inner">
+            <h2>第二个产品</h2>
+            <p>第二个产品描述</p>
+            <div class="index-board-button">立即购买</div>
           </div>
         </div>
-        <div class="index-border-item">
-          <div class="index-border-item-inner">
-            <h2>第三个标题</h2>
-            <p>第三个的描述</p>
-            <div class="index-border-button">立即购买</div>
+        <div class="index-board-item">
+          <div class="index-board-item-inner">
+            <h2>第三个产品</h2>
+            <p>第三个产品描述</p>
+            <div class="index-board-button">立即购买</div>
           </div>
         </div>
-        <div class="index-border-item">
-          <div class="index-border-item-inner">
-            <h2>第四个标题</h2>
-            <p>第四个的描述</p>
-            <div class="index-border-button">立即购买</div>
-          </div>
+        <div class="index-board-item">
+          <div class="index-board-item-inner">
+            <h2>第四个产品</h2>
+            <p>第四个产品描述</p>
+            <div class="index-board-button">立即购买</div>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
-
 <script>
-// import axios from "axios";
+import axios from "axios"
+import SliderComponent from '../components/sliderComponent'
 export default {
-  // mounted() {
-  //   axios
-  //     .post("api/getNewsList")
-  //     .then(res => {
-  //       console.log(res);
-  //       this.newsList = res.data.list;
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  //   axios
-  //     .get("api/getProductList")
-  //     .then(res => {
-  //       console.log(res);
-  //       this.newsList = res.data.list;
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  //   axios
-  //     .get("api/getborderList")
-  //     .then(res => {
-  //       console.log(res);
-  //       this.newsList = res.data.list;
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // },
-  data() {
-    return {
-      newsList: [
-        {
-          title: "数据统计",
-          url: "http://starcraft.com"
-        },
-        {
-          title: "数据预测",
-          url: "http://warcraft.com"
-        },
-        {
-          title: "流量分析",
-          url: "http://overwatch.com"
-        },
-        {
-          title: "广告发布",
-          url: "http://hearstone.com"
-        }
-      ],
-      productList: {
-        pc: {
-          title: "PC产品",
-          list: [
-            {
-              title: "数据统计",
-              url: "http://starcraft.com"
-            },
-            {
-              title: "数据预测",
-              url: "http://warcraft.com"
-            },
-            {
-              title: "流量分析",
-              url: "http://overwatch.com",
-              hot: true
-            },
-            {
-              title: "广告发布",
-              url: "http://hearstone.com"
-            }
-          ]
-        },
-        app: {
-          title: "手机应用类",
-          last: true,
-          list: [
-            {
-              title: "91助手",
-              url: "http://weixin.com"
-            },
-            {
-              title: "产品助手",
-              url: "http://weixin.com",
-              hot: true
-            },
-            {
-              title: "智能地图",
-              url: "http://maps.com"
-            },
-            {
-              title: "语音助手",
-              url: "http://phone.com",
-              hot: true
-            }
-          ]
-        }
+  // 注册
+  components:{
+    SliderComponent
+  },
+  mounted() {
+    //获取数据接口
+    axios.post("api/getNewsList") //接口  
+    .then(res => {   //请求成功
+      console.log(res);  //打印
+      this.newsList = res.data.list;
+      })
+      .catch(error => {  //请求失败
+        console.log(error);
+      });
+    axios.get("api/getProductsList")
+    .then(res => {
+      console.log(res);
+      this.newsList = res.data.list;
+      })
+    .catch(error => {
+        console.log(error);
+      });
+    axios.get("api/getborderList")
+    .then(res => {
+      console.log(res);
+      this.newsList = res.data.list;
+      })
+    .catch(error => {
+      console.log(error);
+      });
+  },
+    data(){
+      return{
+        newsList:[],
+        productList:null,
+        borderlist:null
       }
-    };
+    },
   }
-};
+//   data() {
+//     return {
+//       newsList:[
+//         {
+//             title:'数据统计',
+//             url:'http://starcraft.com'
+//         },
+//         {
+//             title:'数据预测',
+//             url:'http://warcraft.com'
+//         },
+//         {
+//             title:'流量分析',
+//             url:'http://overwatch.com',
+//             hot:true
+//         },
+//         {
+//             title:'广告发布',
+//             url:'http://hearstone.com'
+//         }
+//       ],
+//       productList:{
+//         pc:{
+//           title:'PC产品',
+//           list:[
+//             {
+//               title:'数据统计',
+//               url:'http://starcraft.com'
+//             },
+//             {
+//               title:'数据预测',
+//               url:'http://warcraft.com'
+//             },
+//             {
+//               title:'流量分析',
+//               url:'http://overwatch.com',
+//               hot:true
+//             },
+//             {
+//               title:'广告发布',
+//               url:'http://hearstone.com'
+//             }
+//           ]
+//         },
+//         app:{
+//           title:'手机应用类',
+//           last:true,
+//           list:[
+//             {
+//               title:'91助手',
+//               url:'http://weixin.com'
+//             },
+//             {
+//               title:'产品助手',
+//               url:'http://weixin.com',
+//               hot:true
+//             },
+//             {
+//               title:'智能地图',
+//               url:'http://maps.com'
+//             },
+//             {
+//               title:'语音助手',
+//               url:'http://iphone.com',
+//               hot:true
+//             }
+//           ]
+//         }
+//       }
+//     }
+//   }
+// };
 </script>
-
 
 
 <style scoped>
 .index-wrapper {
-  display: flex;
   width: 1200px;
-  margin: 0 auto;
+  display: flex;
 }
 .index-left {
   width: 300px;
@@ -185,9 +197,9 @@ export default {
 }
 .index-left-block {
   margin: 15px;
-  background: #fff;
+  background: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 0 1px #ddd;
+  box-shadow: 0 0 1px #dddddd;
 }
 .index-left-block .hr {
   border-bottom: 1px solid black;
@@ -195,12 +207,12 @@ export default {
 }
 .index-left-block h2 {
   background: #4fc08d;
-  color: #fff;
+  color: #ffffff;
   padding: 10px 15px;
   margin-bottom: 20px;
 }
 .index-left-block h3 {
-  color: black;
+  color: #222;
   font-weight: bolder;
   padding: 0 15px 5px 15px;
 }
@@ -220,14 +232,11 @@ export default {
 }
 .index-border-item {
   width: 400px;
-  background: ddd;
+  background: #ffffff;
   box-shadow: 0 0 1px #ddd;
   border-radius: 0 0 10px 10px;
   margin-bottom: 20px;
   padding: 20px;
-}
-a {
-  text-decoration: none;
 }
 .index-border-item-inner {
   height: 125px;
@@ -249,14 +258,17 @@ a {
   width: 80px;
   height: 40px;
   background: rgb(1, 77, 1);
-  color: white;
+  color: #ffffff;
   border-radius: 5px;
   text-align: center;
   line-height: 40px;
 }
 .hot-tag {
-  color: white;
-  background: violet;
+  color: #ffffff;
+  background: purple;
   font-size: 5px;
+}
+a{
+  text-decoration: none;
 }
 </style>

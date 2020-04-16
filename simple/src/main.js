@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from './Layout.vue'
 import IndexPage from './pages/index.vue'
-import mock from '../mock/mock.js'
+import mock from './mock/mock.js'
 
+console.log(mock)
 // 调用
 Vue.use(VueRouter)
 // 实例化 VueRouter
