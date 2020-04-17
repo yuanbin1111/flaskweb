@@ -9,7 +9,7 @@
           <ul>
             <li v-for="item in product.list">
               <a v-bind:href="item.url">{{ item.title}}</a>
-              <span v-if="item.hot" class="hot-tag">HOT</span>
+              <span v-if="item.hot" style="color:white;background:purple;font-size:13px">HOT</span>
             </li>
           </ul>
           <!-- <div v-if="product.title == 'PC产品'" class="hr"></div> -->
@@ -19,7 +19,7 @@
       <!-- 最新消息 -->
       <div class="index-left-block lastest-news">
         <h2>最新消息</h2>
-        <li v-for="item in newsList">
+        <li v-for="item in newList">
           <a v-bind:href="item.url">{{ item.title }}</a>
         </li>
       </div>
@@ -28,42 +28,48 @@
       <!-- <div style="line-height:300px;width:900px;height:300px;background:red;margin:0 auto">组件</div> -->
       <SliderComponent></SliderComponent>
       <div class="index-border-list">
-        <div class="index-border-item">
+        <div class="index-border-item" v-for="item in borderlist">
           <div class="index-border-item-inner">
             <h2>{{ item.title }}</h2>
             <p>{{ item.description }}</p>
             <div class="index-border-button">立即购买</div>
           </div>
-            <!-- <h2>第一个产品</h2>
-            <p>第一个产品描述</p>
-            <div class="index-board-button">立即购买</div>
-          </div>
-        </div>
-        <div class="index-board-item">
-          <div class="index-board-item-inner">
-            <h2>第二个产品</h2>
-            <p>第二个产品描述</p>
-            <div class="index-board-button">立即购买</div>
-          </div>
-        </div>
-        <div class="index-board-item">
-          <div class="index-board-item-inner">
-            <h2>第三个产品</h2>
-            <p>第三个产品描述</p>
-            <div class="index-board-button">立即购买</div>
-          </div>
-        </div>
-        <div class="index-board-item">
-          <div class="index-board-item-inner">
-            <h2>第四个产品</h2>
-            <p>第四个产品描述</p>
-            <div class="index-board-button">立即购买</div>
-          </div> -->
         </div>
       </div>
     </div>
   </div>
 </template>
+            <!-- <h2>第一个产品</h2>
+            <p>第一个产品描述</p>
+            <div class="index-border-button">立即购买</div>
+          </div>
+        </div>
+        <div class="index-border-item">
+          <div class="index-border-item-inner">
+            <h2>第二个产品</h2>
+            <p>第二个产品描述</p>
+            <div class="index-border-button">立即购买</div>
+          </div>
+        </div>
+        <div class="index-border-item">
+          <div class="index-border-item-inner">
+            <h2>第三个产品</h2>
+            <p>第三个产品描述</p>
+            <div class="index-border-button">立即购买</div>
+          </div>
+        </div>
+        <div class="index-border-item">
+          <div class="index-border-item-inner">
+            <h2>第四个产品</h2>
+            <p>第四个产品描述</p>
+            <div class="index-border-button">立即购买</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template> -->
+
 
 <script>
 import axios from "axios"
@@ -71,39 +77,39 @@ import SliderComponent from '../components/sliderComponent'
 export default {
   // 注册
   components:{
-    SliderComponent
+      SliderComponent
   },
   mounted() {
     //获取数据接口
-    axios.post("api/getNewsList") //接口  
+    axios.post("api/getnewList") //接口  
     .then(res => {   //请求成功
       console.log(res);  //打印
-      this.newsList = res.data.list;
+      this.newList = res.data.list;
       })
       .catch(error => {  //请求失败
         console.log(error);
       });
-    axios.get("api/getProductsList")
+    axios.get("api/getproductlist")
     .then(res => {
       console.log(res);
-      this.newsList = res.data.list;
+      this.productlist = res.data;
       })
     .catch(error => {
         console.log(error);
       });
-    axios.get("api/getborderList")
+    axios.get("api/getborderlist")
     .then(res => {
       console.log(res);
-      this.newsList = res.data.list;
+      this.borderlist = res.data;
       })
     .catch(error => {
-      console.log(error);
-      });
+      console.log(error)
+      })
   },
     data(){
       return{
-        newsList:[],
-        productList:null,
+        newList:[],
+        productlist:null,
         borderlist:null
       }
     },
@@ -263,11 +269,11 @@ export default {
   text-align: center;
   line-height: 40px;
 }
-.hot-tag {
+/* .hot-tag {
   color: #ffffff;
   background: purple;
-  font-size: 5px;
-}
+  font-size: 5px; */
+/* } */
 a{
   text-decoration: none;
 }
