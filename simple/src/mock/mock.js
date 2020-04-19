@@ -12,20 +12,20 @@ Mock.mock(/getproductlist/,{
         title:'PC产品',
         list:[
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url'
             },
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url'
             },
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url',
                 hot:'@boolean'
             },
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url'
             },
         ]
@@ -35,20 +35,20 @@ Mock.mock(/getproductlist/,{
         last:'@boolean',
         list:[
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url'
             },
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url',
                 hot:'@boolean'
             },
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url'
             },
             {
-                title:'@ctitle(5,20)',
+                title:'@ctitle(4)',
                 url:'@url',
                 hot:'@boolean'
             }
